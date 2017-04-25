@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CountdownView">
+        <attr name="duration" format="float"/>
+        <attr name="progress_color" format="color"/>
+        <attr name="progress_light_color" format="color"/>
+        <attr name="center_text" format="string"/>
+        <attr name="center_text_color" format="color"/>
+        <attr name="center_text_size" format="dimension"/>
+    </declare-styleable>
+
+</resources>
