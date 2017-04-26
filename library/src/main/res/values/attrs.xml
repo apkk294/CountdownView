@@ -2,12 +2,12 @@
 <resources>
 
     <declare-styleable name="CountdownView">
-        <attr name="duration" format="float"/>
-        <attr name="progress_color" format="color"/>
-        <attr name="progress_light_color" format="color"/>
-        <attr name="center_text" format="string"/>
-        <attr name="center_text_color" format="color"/>
-        <attr name="center_text_size" format="dimension"/>
+        <attr name="duration" format="float"/>  <!-- 倒计时时长 -->
+        <attr name="progress_color" format="color"/>  <!-- 默认的时候进度颜色 -->
+        <attr name="progress_light_color" format="color"/>  <!-- 倒计时转过的进度颜色 -->
+        <attr name="center_text" format="string"/>  <!-- 中间文字 -->
+        <attr name="center_text_color" format="color"/>  <!-- 中间文字颜色 -->
+        <attr name="center_text_size" format="dimension"/>  <!-- 中间文字大小 -->
     </declare-styleable>
 
 </resources>

@@ -9,13 +9,15 @@
     <com.lk.library.CountdownView
         android:id="@+id/countdown"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!--
         app:center_text="跳过"
         app:center_text_color="@color/colorAccent"
         app:center_text_size="12sp"
         app:duration="5000"
         app:progress_color="@color/colorPrimary"
-        app:progress_light_color="@color/colorAccent"/>
+        app:progress_light_color="@color/colorAccent" -->
 
     <Button
         android:id="@+id/btn_start_countdown"

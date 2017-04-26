@@ -16,9 +16,9 @@ import android.view.animation.LinearInterpolator;
 
 
 /**
- * 创建者： lk
- * 时间：2017/4/18
- * Description：倒计时View.
+ * creator: lk
+ * time: 2017/4/18
+ * Description: CountdownView.
  */
 
 public class CountdownView extends View {
@@ -28,6 +28,10 @@ public class CountdownView extends View {
     private final int DEFAULT_PROGRESS_COLOR       = 0xFFEEEEEE;
     private final int DEFAULT_PROGRESS_LIGHT_COLOR = 0xFFFF0000;
     private final int DEFAULT_TEXT_COLOR           = 0xFF212121;
+    private final int DEFAULT_BG_COLOR             = 0xFFFFFFFF;
+
+    private Paint mBgPaint;
+    private int mBgColor = DEFAULT_BG_COLOR;
 
     private Paint mProgressPaint;
     private int mProgressColor = DEFAULT_PROGRESS_COLOR;
@@ -41,7 +45,7 @@ public class CountdownView extends View {
     private String mCenterText = "";
 
     private int mProgressWidth;
-    //当前进度0-100
+    //current progress 0-100
     private int mCurProgress;
     private long mDuration        = 3000;
     private long mSurplusDuration = mDuration;
@@ -84,17 +88,20 @@ public class CountdownView extends View {
     }
 
     private void initPaint() {
-        //默认进度条画笔设置
+        //Paint config for default progress.默认进度画笔设置
         mProgressPaint = new Paint();
         mProgressPaint.setStrokeWidth(mProgressWidth = dip2px(getContext(), 3));
         mProgressPaint.setStyle(Paint.Style.STROKE);
-        //高亮时进度条画笔设置
+        //Paint config for light progress.倒计时转过的画笔设置
         mProgressLightPaint = new Paint();
         mProgressLightPaint.setStrokeWidth(mProgressWidth = dip2px(getContext(), 3));
         mProgressLightPaint.setStyle(Paint.Style.STROKE);
-        //文字画笔
+        //Paint config for text progress.文字画笔设置
         mTextPaint = new Paint();
         mTextPaint.setStyle(Paint.Style.FILL);
+
+        mBgPaint = new Paint();
+        mBgPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -111,7 +118,7 @@ public class CountdownView extends View {
         if (heightMode != MeasureSpec.EXACTLY) {
             height = dip2px(getContext(), 50);
         }
-        //宽高不相同的时候哪个大按哪个
+        //Use the largest when width and height are not same
         if (width != height) {
             width = height = Math.max(width, height);
         }
@@ -129,21 +136,25 @@ public class CountdownView extends View {
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
 
-        //如果文字是null的话，显示倒计时
+        mBgPaint.setColor(mBgColor);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2 - mProgressWidth, mBgPaint);
+
+        //Show interval if center text is null
         if (mCenterText == null) {
             mIsShowInterval = true;
         }
 
         if (mIsShowInterval) {
-            //剩余时间转换成秒
+            //Parse surplus time to seconds
             String surplusS = String.valueOf(mSurplusDuration / 1000 +
                     (mSurplusDuration != mDuration ? 1 : 0));
-            //剩余时间小于等于0说明已经结束
+            //Finish if surplus time < 0
             if (mSurplusDuration <= 0) {
                 surplusS = "0";
             }
             mCenterText = surplusS + "s";
         }
+
 
         drawProgress(canvas);
         drawText(canvas);
@@ -151,9 +162,9 @@ public class CountdownView extends View {
     }
 
     /**
-     * 画圆圈
+     * draw default progress
      *
-     * @param canvas 画布
+     * @param canvas canvas
      */
     private void drawProgress(Canvas canvas) {
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2 - mProgressWidth,
@@ -161,9 +172,9 @@ public class CountdownView extends View {
     }
 
     /**
-     * 画高亮的圆圈
+     * draw progress light
      *
-     * @param canvas 画布
+     * @param canvas canvas
      */
     private void drawProgressLight(Canvas canvas) {
         canvas.save();
@@ -180,9 +191,9 @@ public class CountdownView extends View {
     }
 
     /**
-     * 画文字
+     * draw text
      *
-     * @param canvas 画布
+     * @param canvas canvas
      */
     private void drawText(Canvas canvas) {
         Rect textBound = new Rect();
@@ -198,7 +209,7 @@ public class CountdownView extends View {
     }
 
     /**
-     * 开始倒计时
+     * start countdown
      */
     public void start() {
         startAnim();
@@ -223,36 +234,36 @@ public class CountdownView extends View {
     }
 
     /**
-     * 设置倒计时时长
+     * set countdown duration
      *
-     * @param duration 时长 毫秒
+     * @param duration duration. unit:millisecond
      */
     public void setDuration(long duration) {
         this.mDuration = duration;
     }
 
     /**
-     * 设置圆圈的颜色
+     * set default progress color
      *
-     * @param color int型颜色0xFFFFFFFF
+     * @param color color ex.0xFFFFFFFF
      */
     public void setProgressColor(@ColorInt int color) {
         this.mProgressColor = color;
     }
 
     /**
-     * 设置高亮圆圈的颜色
+     * set progress light color
      *
-     * @param color int型颜色0xFFFFFFFF
+     * @param color color ex.0xFFFFFFFF
      */
     public void setProgressLightColor(@ColorInt int color) {
         this.mProgressLightColor = color;
     }
 
     /**
-     * 设置中间文字
+     * set center text
      *
-     * @param centerText 中间要显示的文字
+     * @param centerText the text you want show
      */
     public void setText(@NonNull String centerText) {
         this.mCenterText = centerText;
@@ -260,25 +271,29 @@ public class CountdownView extends View {
     }
 
     /**
-     * 设置中间文字的颜色
+     * set center text color
      *
-     * @param color int型颜色0xFFFFFFFF
+     * @param color color ex.0xFFFFFFFF
      */
     public void setTextColor(@ColorInt int color) {
         this.mTextColor = color;
     }
 
     /**
-     * 设置中间文字的大小
+     * set center text size
      *
-     * @param sp 文字大小 单位：sp
+     * @param sp text size unit：sp
      */
     public void setTextSize(float sp) {
         this.mTextSize = sp2px(getContext(), sp);
     }
 
+    public void setBgColor(@ColorInt int color) {
+        this.mBgColor = color;
+    }
+
     /**
-     * 设置进度监听
+     * set progress listener
      *
      * @param countdownListener {@link CountdownListener}
      */
